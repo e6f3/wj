@@ -15,20 +15,7 @@ const devMode =
 
 let assetsBase = location.origin + '/storage/';
 
-try {
-    const baseParam = new URL(self.location.href)
-        .searchParams
-        .get('base');
 
-    if (baseParam) {
-        assetsBase = atob(
-            decodeURIComponent(baseParam)
-                .split('')
-                .reverse()
-                .join('')
-        );
-    }
-} catch (e) {}
 
 function getAsset(path) {
     if (devMode) {
