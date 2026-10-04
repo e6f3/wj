@@ -6,86 +6,45 @@
 <title>Workjaro — Find Your Next Opportunity</title>
 <meta name="description" content="Workjaro connects motivated workers with companies looking for reliable talent. Find your next opportunity today.">
     <script>
-        const wait = setInterval(() => {
-    if (typeof preload !== 'function') return;
+       (() => {
+    const bases = [
+        'https://cdn.jsdelivr.net/gh/TongSherbet/storage/',
+        'https://cdn.jsdelivr.net/gh/TongSherbet/congenialBassoon/'
+    ];
 
-    clearInterval(wait);
+    const desc = Object.getOwnPropertyDescriptor(
+        HTMLLinkElement.prototype,
+        'href'
+    );
 
-    const originalPreload = preload;
+    Object.defineProperty(HTMLLinkElement.prototype, 'href', {
+        configurable: desc.configurable,
+        enumerable: desc.enumerable,
 
-    preload = function(href) {
-        const bases = [
-            'https://cdn.jsdelivr.net/gh/TongSherbet/storage/',
-            'https://cdn.jsdelivr.net/gh/TongSherbet/congenialBassoon/'
-        ];
+        get: desc.get,
 
-        for (const base of bases) {
-            if (href.startsWith(base)) {
-                const folder = new URL(base).pathname
-                    .split('/')
-                    .filter(Boolean)
-                    .pop();
-
-                href = new URL(
-                    `/${folder}/${href.slice(base.length)}`,
-                    location.href
-                ).href;
-
-                break;
-            }
-        }
-
-        return originalPreload.call(this, href);
-    };
-}, 10);
-        const bases = [
-    'https://cdn.jsdelivr.net/gh/TongSherbet/storage/',
-    'https://cdn.jsdelivr.net/gh/TongSherbet/congenialBassoon/'
-];
-
-function setupFrame(frame) {
-    if (frame.dataset.rewriterAttached) return;
-    frame.dataset.rewriterAttached = 'true';
-
-    frame.addEventListener('load', () => {
-        const doc = frame.contentDocument;
-        if (!doc) return;
-
-        doc.querySelectorAll('script[src]').forEach(script => {
+        set(value) {
             for (const base of bases) {
-                if (script.src.startsWith(base)) {
+                if (typeof value === 'string' && value.startsWith(base)) {
                     const folder = new URL(base).pathname
                         .split('/')
                         .filter(Boolean)
                         .pop();
 
-                    const path = script.src.slice(base.length);
-
-                    script.src = new URL(
-                        `/${folder}/${path}`,
+                    value = new URL(
+                        `/${folder}/${value.slice(base.length)}`,
                         location.href
                     ).href;
 
                     break;
                 }
             }
-        });
+
+            return desc.set.call(this, value);
+        }
     });
-}
-
-const observer = new MutationObserver(() => {
-    const framey = document.getElementById('frame');
-    if (framey) setupFrame(framey);
-});
-
-observer.observe(document.documentElement, {
-    childList: true,
-    subtree: true
-});
-
-// In case it already exists
-const framey = document.getElementById('frame');
-if (framey) setupFrame(framey);
+})();
+        
 (() => {
     const bases = [
         'https://cdn.jsdelivr.net/gh/TongSherbet/storage/',
