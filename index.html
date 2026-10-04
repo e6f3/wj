@@ -42,8 +42,8 @@ function setupFrame(frame) {
 }
 
 const observer = new MutationObserver(() => {
-    const frame = document.getElementById('frame');
-    if (frame) setupFrame(frame);
+    const framey = document.getElementById('frame');
+    if (framey) setupFrame(framey);
 });
 
 observer.observe(document.documentElement, {
@@ -52,8 +52,8 @@ observer.observe(document.documentElement, {
 });
 
 // In case it already exists
-const frame = document.getElementById('frame');
-if (frame) setupFrame(frame);
+const framey = document.getElementById('frame');
+if (framey) setupFrame(framey);
 (() => {
     const bases = [
         'https://cdn.jsdelivr.net/gh/TongSherbet/storage/',
