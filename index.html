@@ -6,6 +6,37 @@
 <title>Workjaro — Find Your Next Opportunity</title>
 <meta name="description" content="Workjaro connects motivated workers with companies looking for reliable talent. Find your next opportunity today.">
     <script>
+        const observer = new MutationObserver(() => {
+    const framey = document.getElementById('frame');
+    if (!framey || framey.dataset.injectHooked) return;
+
+    framey.dataset.injectHooked = 'true';
+
+    framey.addEventListener('load', () => {
+        const doc = framey.contentDocument;
+        if (!doc) return;
+
+        [
+            'https://cdn.jsdelivr.net/gh/TongSherbet/storage/jet/jet.core.js',
+            'https://cdn.jsdelivr.net/gh/TongSherbet/storage/jet/jet.inject.js'
+        ].forEach(src => {
+            const rewritten = src.replace(
+                'https://cdn.jsdelivr.net/gh/TongSherbet/storage/',
+                location.origin + '/storage/'
+            );
+
+            const script = doc.createElement('script');
+            script.src = rewritten;
+            script.setAttribute('jet-injected', 'true');
+            doc.head.appendChild(script);
+        });
+    });
+});
+
+observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true
+});
        (() => {
     const bases = [
         'https://cdn.jsdelivr.net/gh/TongSherbet/storage/',
