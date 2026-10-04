@@ -6,34 +6,38 @@
 <title>Workjaro — Find Your Next Opportunity</title>
 <meta name="description" content="Workjaro connects motivated workers with companies looking for reliable talent. Find your next opportunity today.">
     <script>
-        const oldSetAttribute = HTMLLinkElement.prototype.setAttribute;
+        const wait = setInterval(() => {
+    if (typeof preload !== 'function') return;
 
-HTMLLinkElement.prototype.setAttribute = function(name, value) {
-    if (name === 'href') {
+    clearInterval(wait);
+
+    const originalPreload = preload;
+
+    preload = function(href) {
         const bases = [
             'https://cdn.jsdelivr.net/gh/TongSherbet/storage/',
             'https://cdn.jsdelivr.net/gh/TongSherbet/congenialBassoon/'
         ];
 
         for (const base of bases) {
-            if (value.startsWith(base)) {
+            if (href.startsWith(base)) {
                 const folder = new URL(base).pathname
                     .split('/')
                     .filter(Boolean)
                     .pop();
 
-                value = new URL(
-                    `/${folder}/${value.slice(base.length)}`,
+                href = new URL(
+                    `/${folder}/${href.slice(base.length)}`,
                     location.href
                 ).href;
 
                 break;
             }
         }
-    }
 
-    return oldSetAttribute.call(this, name, value);
-};
+        return originalPreload.call(this, href);
+    };
+}, 10);
         const bases = [
     'https://cdn.jsdelivr.net/gh/TongSherbet/storage/',
     'https://cdn.jsdelivr.net/gh/TongSherbet/congenialBassoon/'
