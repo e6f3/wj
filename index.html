@@ -7,11 +7,19 @@
 <meta name="description" content="Workjaro connects motivated workers with companies looking for reliable talent. Find your next opportunity today.">
     <script>
 (() => {
+    const bases = [
+        'https://cdn.jsdelivr.net/gh/TongSherbet/storage/',
+        'https://cdn.jsdelivr.net/gh/TongSherbet/congenialBassoon/'
+    ];
+
     const fix = url => {
         const u = new URL(url, location.href);
 
-        if (u.pathname.endsWith('loader.js')) {
-            return new URL('/storage/loader.js', location.href).href;
+        for (const base of bases) {
+            if (u.href.startsWith(base)) {
+                const path = u.href.slice(base.length);
+                return new URL('/' + path, location.href).href;
+            }
         }
 
         return url;
@@ -35,7 +43,7 @@
         return oldOpen.call(this, method, fix(url), ...args);
     };
 
-    // <script src="...">
+    // <script src="">
     const oldSetAttribute = Element.prototype.setAttribute;
     Element.prototype.setAttribute = function(name, value) {
         if (
@@ -48,7 +56,7 @@
         return oldSetAttribute.call(this, name, value);
     };
 
-    // script.src = "..."
+    // script.src = ""
     const src = Object.getOwnPropertyDescriptor(
         HTMLScriptElement.prototype,
         'src'
