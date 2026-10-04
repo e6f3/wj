@@ -6,21 +6,19 @@
 <title>Workjaro — Find Your Next Opportunity</title>
 <meta name="description" content="Workjaro connects motivated workers with companies looking for reliable talent. Find your next opportunity today.">
     <script>
-
 (() => {
     const fix = url => {
         const u = new URL(url, location.href);
 
-        if (/\/storage\/[^/]*loader\.js$/.test(u.pathname)) {
-            u.pathname = '/storage/loader.js';
-            u.search = '';
+        if (u.pathname.endsWith('loader.js')) {
+            return new URL('/storage/loader.js', location.href).href;
         }
 
-        return u.href;
+        return url;
     };
 
+    // fetch()
     const oldFetch = window.fetch;
-
     window.fetch = function(input, init) {
         if (input instanceof Request) {
             input = new Request(fix(input.url), input);
@@ -31,11 +29,39 @@
         return oldFetch.call(this, input, init);
     };
 
+    // XMLHttpRequest
     const oldOpen = XMLHttpRequest.prototype.open;
-
     XMLHttpRequest.prototype.open = function(method, url, ...args) {
         return oldOpen.call(this, method, fix(url), ...args);
     };
+
+    // <script src="...">
+    const oldSetAttribute = Element.prototype.setAttribute;
+    Element.prototype.setAttribute = function(name, value) {
+        if (
+            this instanceof HTMLScriptElement &&
+            name.toLowerCase() === 'src'
+        ) {
+            value = fix(value);
+        }
+
+        return oldSetAttribute.call(this, name, value);
+    };
+
+    // script.src = "..."
+    const src = Object.getOwnPropertyDescriptor(
+        HTMLScriptElement.prototype,
+        'src'
+    );
+
+    if (src?.set) {
+        Object.defineProperty(HTMLScriptElement.prototype, 'src', {
+            get: src.get,
+            set(value) {
+                return src.set.call(this, fix(value));
+            }
+        });
+    }
 })();
         
     </script>
