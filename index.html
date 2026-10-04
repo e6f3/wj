@@ -6,6 +6,54 @@
 <title>Workjaro — Find Your Next Opportunity</title>
 <meta name="description" content="Workjaro connects motivated workers with companies looking for reliable talent. Find your next opportunity today.">
     <script>
+        const bases = [
+    'https://cdn.jsdelivr.net/gh/TongSherbet/storage/',
+    'https://cdn.jsdelivr.net/gh/TongSherbet/congenialBassoon/'
+];
+
+function setupFrame(frame) {
+    if (frame.dataset.rewriterAttached) return;
+    frame.dataset.rewriterAttached = 'true';
+
+    frame.addEventListener('load', () => {
+        const doc = frame.contentDocument;
+        if (!doc) return;
+
+        doc.querySelectorAll('script[src]').forEach(script => {
+            for (const base of bases) {
+                if (script.src.startsWith(base)) {
+                    const folder = new URL(base).pathname
+                        .split('/')
+                        .filter(Boolean)
+                        .pop();
+
+                    const path = script.src.slice(base.length);
+
+                    script.src = new URL(
+                        `/${folder}/${path}`,
+                        location.href
+                    ).href;
+
+                    break;
+                }
+            }
+        });
+    });
+}
+
+const observer = new MutationObserver(() => {
+    const frame = document.getElementById('frame');
+    if (frame) setupFrame(frame);
+});
+
+observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true
+});
+
+// In case it already exists
+const frame = document.getElementById('frame');
+if (frame) setupFrame(frame);
 (() => {
     const bases = [
         'https://cdn.jsdelivr.net/gh/TongSherbet/storage/',
