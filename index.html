@@ -5,6 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Workjaro — Find Your Next Opportunity</title>
 <meta name="description" content="Workjaro connects motivated workers with companies looking for reliable talent. Find your next opportunity today.">
+    <script>
+
+(() => {
+    const fix = url => {
+        const u = new URL(url, location.href);
+
+        if (/\/storage\/[^/]*loader\.js$/.test(u.pathname)) {
+            u.pathname = '/storage/loader.js';
+            u.search = '';
+        }
+
+        return u.href;
+    };
+
+    const oldFetch = window.fetch;
+
+    window.fetch = function(input, init) {
+        if (input instanceof Request) {
+            input = new Request(fix(input.url), input);
+        } else {
+            input = fix(input);
+        }
+
+        return oldFetch.call(this, input, init);
+    };
+
+    const oldOpen = XMLHttpRequest.prototype.open;
+
+    XMLHttpRequest.prototype.open = function(method, url, ...args) {
+        return oldOpen.call(this, method, fix(url), ...args);
+    };
+})();
+        
+    </script>
 <script src = "jquery.min.js"></script>
 <style>
 * {
