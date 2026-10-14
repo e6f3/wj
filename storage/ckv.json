@@ -1984,14 +1984,6 @@
   "cover_file": "covers/elasticman.png"
  },
  {
-  "name": "emulatorjs",
-  "source": "ckv",
-  "author": "gmshelf/ckv",
-  "file": "ckv/emulatorjs2.html",
-  "cover_author": "gmshelf/ckv",
-  "cover_file": "covers/emulatorjs.png"
- },
- {
   "name": "Endoparasitic 2",
   "source": "ckv",
   "author": "gmshelf/ckv",
@@ -4942,14 +4934,6 @@
   "file": "ckv/royaltowersmedievaltd.html",
   "cover_author": "gmshelf/ckv",
   "cover_file": "covers/royaltowermedievaltd.png"
- },
- {
-  "name": "ruffleemu",
-  "source": "ckv",
-  "author": "gmshelf/ckv",
-  "file": "ckv/ruffle.html",
-  "cover_author": "gmshelf/ckv",
-  "cover_file": "covers/ruffle.png"
  },
  {
   "name": "Run",

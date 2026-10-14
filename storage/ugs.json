@@ -8712,14 +8712,6 @@
   "cover_file": "roulette%20knight/html5game/splash.png"
  },
  {
-  "name": "Ruffle Emulator",
-  "source": "ugs",
-  "author": "bubbls/ugs-singlefile",
-  "file": "UGS-Files/clruffle.html",
-  "cover_author": null,
-  "cover_file": null
- },
- {
   "name": "Run",
   "source": "ugs",
   "author": "bubbls/ugs-singlefile",
