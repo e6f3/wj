@@ -849,6 +849,7 @@
             line-height: 1;
             text-align: left;
             cursor: pointer;
+            transition: color .15s ease;
         }
 
         .ptab:focus-visible {
@@ -859,20 +860,23 @@
         .ptab:not(.active)::before {
             content: "";
             position: absolute;
-            inset: 3px 2px 4px;
+            inset: 0 -10px;
             z-index: -1;
-            border-radius: 8px;
+            pointer-events: none;
             background: rgba(255,255,255,0.06);
+            background: color-mix(in srgb, var(--ptab-bar, #141414) 85%, transparent);
             opacity: 0;
-            transition: opacity .12s;
-        }
-
-        .ptab:not(.active):hover {
-            color: rgba(255,255,255,0.8);
-        }
-
-        .ptab:not(.active):hover::before {
-            opacity: 1;
+            transition: opacity .15s ease;
+            --tab-shape:
+                linear-gradient(#000, #000) left 19px top 0 / calc(100% - 38px) 100% no-repeat,
+                linear-gradient(#000, #000) left 10px top 9px / 10px 21px no-repeat,
+                linear-gradient(#000, #000) right 10px top 9px / 10px 21px no-repeat,
+                radial-gradient(circle at 100% 100%, #000 9.5px, transparent 10px) left 10px top 0 / 10px 10px no-repeat,
+                radial-gradient(circle at 0 100%, #000 9.5px, transparent 10px) right 10px top 0 / 10px 10px no-repeat,
+                radial-gradient(circle at 0 0, transparent 9.5px, #000 10px) left 0 bottom 0 / 11px 10px no-repeat,
+                radial-gradient(circle at 100% 0, transparent 9.5px, #000 10px) right 0 bottom 0 / 11px 10px no-repeat;
+            -webkit-mask: var(--tab-shape);
+            mask: var(--tab-shape);
         }
 
         .ptab:not(.active)::after {
@@ -884,14 +888,27 @@
             height: 14px;
             margin-top: -7px;
             background: rgba(255,255,255,0.1);
-            transition: opacity .12s;
+            transition: opacity .15s ease;
         }
 
-        .ptab:hover::after,
-        .ptab:has(+ .ptab:hover)::after,
         .ptab:has(+ .ptab.active)::after,
         .ptab:last-child::after {
             opacity: 0;
+        }
+
+        @media (hover: hover) {
+            .ptab:not(.active):hover {
+                color: rgba(255,255,255,0.8);
+            }
+
+            .ptab:not(.active):hover::before {
+                opacity: 1;
+            }
+
+            .ptab:hover::after,
+            .ptab:has(+ .ptab:hover)::after {
+                opacity: 0;
+            }
         }
 
         .ptab.active {
@@ -982,6 +999,7 @@
             height: 18px;
             border-radius: 50%;
             color: rgba(255,255,255,0.45);
+            transition: background-color .15s ease, color .15s ease;
         }
 
         .ptab-x::before {
@@ -1012,6 +1030,7 @@
             background: none;
             color: rgba(255,255,255,0.45);
             cursor: pointer;
+            transition: background-color .15s ease, color .15s ease;
         }
 
         .ptab-new:hover {
@@ -1026,6 +1045,16 @@
             stroke: currentColor;
             stroke-width: 2;
             stroke-linecap: round;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .ptab,
+            .ptab::before,
+            .ptab::after,
+            .ptab-x,
+            .ptab-new {
+                transition: none;
+            }
         }
 
         @container (max-width: 72px) {
@@ -4287,7 +4316,7 @@
                     <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
                 </svg>
                 <span class="addr-sep">|</span>
-                <input class="addr-input" id="addrInput" type="text" placeholder="Search or enter address" />
+                <input class="addr-input" id="addrInput" type="text" placeholder="̠Search or enter URL" />
                 <div class="addr-autocomplete" id="addrAutocomplete"></div>
             </div>
             <button class="nb" id="bookmarkBtn" onclick="toggleBookmark()" title="Bookmark this page">
@@ -4314,7 +4343,7 @@
                             <circle cx="11" cy="11" r="8" />
                             <path d="m21 21-4.35-4.35" />
                         </svg>
-                        <input id="searchInput" type="text" placeholder="Search or enter address" autocomplete="off" />
+                        <input id="searchInput" type="text" placeholder="̠Search or enter URL" autocomplete="off" />
                     </div>
                     <div class="autocomplete" id="autocomplete"></div>
                 </div>
