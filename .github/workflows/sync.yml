@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  SOURCE_REPO: TongSherbet/storage
+  SOURCE_REPO: lightspeedsystems-inc/storage
   TARGET_DIR: storage
 
 jobs:
